@@ -22,7 +22,7 @@ system("cp '#{ARGV[0]}/src/lib/libc.a'   #{target}/lib") or exit 1
 system("cp '#{ARGV[0]}/src/lib/libm.a'   #{target}/lib") or exit 1
 system("cp '#{ARGV[0]}/src/lib/libcdi.a' #{target}/lib") or exit 1
 
-system("cp -r #{['common', "arch/#{arch}", "platform/#{platform}"].map { |d| "'#{ARGV[0]}/src/include/#{d}'" } * ' '} #{target}/include") or exit 1
+system("cp -r #{['common', "arch/#{arch}", "platform/#{platform}"].map { |d| "'#{ARGV[0]}/src/include/#{d}'/*" } * ' '} #{target}/include") or exit 1
 
 system("echo | bin/#{target}-gcc -x c - -c -o #{target}/lib/crtbegin.o") or exit 1
 system("echo | bin/#{target}-gcc -x c - -c -o #{target}/lib/crtend.o")   or exit 1
