@@ -48,12 +48,6 @@ $link = $cc
 $cflags = "-std=c11 -m32 '-L#{$hostlibgccdir}' -nostdinc '-I#{$prefix}/#{$target}/include' '-I#{$prefix}/include'"
 $linkflags = "-m32 '-L#{$hostlibgccdir}' '-L#{$prefix}/#{$target}/lib' '-L#{$prefix}/lib' -lc -lgcc"
 
-ENV['CC'] = $cc
-ENV['LD'] = ENV['LINK'] = $link
-
-ENV['CFLAGS'] = $cflags
-ENV['LDFLAGS'] = ENV['LINKFLAGS'] = $linkflags
-
 
 if ARGV.empty?
     suicide 'Usage: ./build.sh path/to/package.rb'

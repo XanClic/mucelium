@@ -1,3 +1,5 @@
+# coding: utf-8
+
 $pkg_ver = '1.70.03'
 
 def pkg_download
@@ -24,5 +26,5 @@ def pkg_build
 end
 
 def pkg_install
-    system("cp fasm/fasm '#{$prefix}/bin'") or suicide('Unable to copy fasm binary.')
+    system("cp fasm/fasm '#{$prefix}/bin'") or suicide 'Unable to copy fasm binary.'
 end
