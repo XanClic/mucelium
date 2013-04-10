@@ -16,13 +16,24 @@ def pkg_download
 MRuby::CrossBuild.new('muxomucota') do |conf|
   toolchain :gcc
 
+  conf.gem "\#{root}/mrbgems/mruby-sprintf"
+  conf.gem "\#{root}/mrbgems/mruby-print"
+  conf.gem "\#{root}/mrbgems/mruby-math"
+  conf.gem "\#{root}/mrbgems/mruby-struct"
+  conf.gem "\#{root}/mrbgems/mruby-enum-ext"
+  conf.gem "\#{root}/mrbgems/mruby-string-ext"
+  conf.gem "\#{root}/mrbgems/mruby-numeric-ext"
+  conf.gem "\#{root}/mrbgems/mruby-array-ext"
+  conf.gem "\#{root}/mrbgems/mruby-hash-ext"
+  conf.gem "\#{root}/mrbgems/mruby-random"
+  conf.gem "\#{root}/mrbgems/mruby-eval"
+
   conf.bins = %w(mrbc mruby mirb)
 
   conf.cc.command = "#{$cc}"
   conf.cc.flags << "#{$cflags}"
   conf.linker.command = "#{$link}"
   conf.linker.flags << "#{$linkflags}"
-
 end
 EOS
 
