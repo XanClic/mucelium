@@ -28,7 +28,12 @@ MRuby::CrossBuild.new('muxomucota') do |conf|
   conf.gem "\#{root}/mrbgems/mruby-random"
   conf.gem "\#{root}/mrbgems/mruby-eval"
 
-  conf.bins = %w(mrbc mruby mirb)
+  conf.gem "\#{root}/mrbgems/pipe"
+
+  conf.gem "\#{root}/mrbgems/mruby-bin-mirb"
+  conf.gem "\#{root}/mrbgems/mruby-bin-mruby"
+
+  conf.bins = %w(mrbc)
 
   conf.cc.command = "#{$cc}"
   conf.cc.flags << "#{$cflags}"
@@ -38,6 +43,13 @@ end
 EOS
 
         IO.write('mruby/build_config.rb', content)
+
+        msg_done
+
+
+        msg_status 'Adding µxoµcota gems...'
+
+        system("cp -r '#{$pbdir}'/gems/* mruby/mrbgems") or failed_hence_suicide 'Could not copy gems.'
 
         msg_done
     end
