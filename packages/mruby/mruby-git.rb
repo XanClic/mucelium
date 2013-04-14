@@ -7,9 +7,12 @@ def pkg_download
         msg_done
 
 
+        Dir.chdir('mruby')
+
+
         msg_status 'Adding cross compiling section to config script...'
 
-        content = IO.read('mruby/build_config.rb') or failed_hence_suicide 'Could not read config script.'
+        content = IO.read('build_config.rb') or failed_hence_suicide 'Could not read config script.'
 
         content = "# coding: utf-8\n\n" + content + <<-EOS
 
@@ -29,6 +32,7 @@ MRuby::CrossBuild.new('muxomucota') do |conf|
   conf.gem "\#{root}/mrbgems/mruby-eval"
 
   conf.gem "\#{root}/mrbgems/pipe"
+  conf.gem "\#{root}/mrbgems/thread"
 
   conf.gem "\#{root}/mrbgems/mruby-bin-mirb"
   conf.gem "\#{root}/mrbgems/mruby-bin-mruby"
@@ -42,16 +46,30 @@ MRuby::CrossBuild.new('muxomucota') do |conf|
 end
 EOS
 
-        IO.write('mruby/build_config.rb', content)
+        IO.write('build_config.rb', content)
 
         msg_done
 
 
         msg_status 'Adding µxoµcota gems...'
 
-        system("cp -r '#{$pbdir}'/gems/* mruby/mrbgems") or failed_hence_suicide 'Could not copy gems.'
+        system("cp -r '#{$pbdir}'/gems/* mrbgems") or failed_hence_suicide 'Could not copy gems.'
 
         msg_done
+
+
+        msg_status 'Applying patches...'
+
+        Dir.new("#{$pbdir}/patches").each do |patch|
+            next unless File.file?("#{$pbdir}/patches/#{patch}")
+
+            system("patch -p1 < '#{$pbdir}/patches/#{patch}' > /dev/null 2> patch_log") or failed_hence_suicide "Could not apply #{patch}."
+        end
+
+        msg_done
+
+
+        Dir.chdir('..')
     end
 end
 
