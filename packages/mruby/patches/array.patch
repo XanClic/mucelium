@@ -1,0 +1,27 @@
+diff --git a/src/array.c b/src/array.c
+index b1f05b4..feef925 100644
+--- a/src/array.c
++++ b/src/array.c
+@@ -355,9 +355,21 @@ mrb_ary_times(mrb_state *mrb, mrb_value self)
+   struct RArray *a2;
+   mrb_value ary;
+   mrb_value *ptr;
++  mrb_value arg;
+   mrb_int times;
+ 
+-  mrb_get_args(mrb, "i", &times);
++  mrb_get_args(mrb, "o", &arg);
++
++  if (mrb_type(arg) == MRB_TT_STRING) {
++    return mrb_ary_join(mrb, self, arg);
++  }
++
++  if (mrb_type(arg) != MRB_TT_FIXNUM) {
++    mrb_raise(mrb, E_ARGUMENT_ERROR, "invalid argument type");
++  }
++
++  times = mrb_fixnum(arg);
++
+   if (times < 0) {
+     mrb_raise(mrb, E_ARGUMENT_ERROR, "negative argument");
+   }
