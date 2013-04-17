@@ -41,6 +41,19 @@ static mrb_value f_create_pipe(mrb_state *mrb, mrb_value self)
 }
 
 
+static mrb_value f_from_fd(mrb_state *mrb, mrb_value self)
+{
+    int fd;
+
+    mrb_get_args(mrb, "i", &fd);
+
+    int *pp = mrb_malloc(mrb, sizeof(fd));
+    *pp = fd;
+
+    return mrb_obj_value(mrb_data_object_alloc(mrb, mrb_class_ptr(self), pp, &mrb_pipe_type));
+}
+
+
 static mrb_value f_stream_send(mrb_state *mrb, mrb_value self)
 {
     char *data;
@@ -146,6 +159,9 @@ static mrb_value f_method_missing(mrb_state *mrb, mrb_value self)
         return mrb_nil_value();
     }
 
+    if (parsed == 2)
+        method_name[mn_len - 1] = 0; // =
+
     for (int i = 0; method_name[i]; i++)
         method_name[i] = toupper(method_name[i]);
 
@@ -175,6 +191,7 @@ void mrb_pipe_gem_init(mrb_state *mrb)
     MRB_SET_INSTANCE_TT(pc, MRB_TT_DATA);
 
     mrb_define_class_method(mrb, pc, "create", f_create_pipe, ARGS_REQ(1) | ARGS_OPT(1));
+    mrb_define_class_method(mrb, pc, "from_fd", f_from_fd, ARGS_REQ(1));
 
     mrb_define_method(mrb, pc, "destroy", f_destroy_pipe, ARGS_OPT(1));
     mrb_define_method(mrb, pc, "duplicate", f_duplicate_pipe, ARGS_OPT(1));
