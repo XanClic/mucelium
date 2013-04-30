@@ -31,6 +31,7 @@ MRuby::CrossBuild.new('muxomucota') do |conf|
   conf.gem "\#{root}/mrbgems/mruby-random"
   conf.gem "\#{root}/mrbgems/mruby-eval"
 
+  conf.gem "\#{root}/mrbgems/errno"
   conf.gem "\#{root}/mrbgems/pipe"
   conf.gem "\#{root}/mrbgems/thread"
 
