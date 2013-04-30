@@ -22,7 +22,7 @@ static struct mrb_data_type mrb_pipe_type = { "Pipe", mrb_pipe_free };
 static mrb_value f_create_pipe(mrb_state *mrb, mrb_value self)
 {
     char *fname_raw;
-    int fname_len, mode = O_RDONLY;
+    mrb_int fname_len, mode = O_RDONLY;
 
     mrb_get_args(mrb, "s|i", &fname_raw, &fname_len, &mode);
 
@@ -43,7 +43,7 @@ static mrb_value f_create_pipe(mrb_state *mrb, mrb_value self)
 
 static mrb_value f_from_fd(mrb_state *mrb, mrb_value self)
 {
-    int fd;
+    mrb_int fd;
 
     mrb_get_args(mrb, "i", &fd);
 
@@ -57,7 +57,7 @@ static mrb_value f_from_fd(mrb_state *mrb, mrb_value self)
 static mrb_value f_stream_send(mrb_state *mrb, mrb_value self)
 {
     char *data;
-    int data_len, flags = O_BLOCKING;
+    mrb_int data_len, flags = O_BLOCKING;
 
     mrb_get_args(mrb, "s|i", &data, &data_len, &flags);
 
@@ -67,7 +67,7 @@ static mrb_value f_stream_send(mrb_state *mrb, mrb_value self)
 
 static mrb_value f_stream_receive(mrb_state *mrb, mrb_value self)
 {
-    int length = -1, flags = O_BLOCKING;
+    mrb_int length = -1, flags = O_BLOCKING;
 
     mrb_get_args(mrb, "|ii", &length, &flags);
 
@@ -89,7 +89,7 @@ static mrb_value f_stream_receive(mrb_state *mrb, mrb_value self)
 
 static mrb_value f_destroy_pipe(mrb_state *mrb, mrb_value self)
 {
-    int flags = 0;
+    mrb_int flags = 0;
 
     mrb_get_args(mrb, "|i", &flags);
 
@@ -101,7 +101,7 @@ static mrb_value f_destroy_pipe(mrb_state *mrb, mrb_value self)
 
 static mrb_value f_duplicate_pipe(mrb_state *mrb, mrb_value self)
 {
-    int dest = 0;
+    mrb_int dest = 0;
 
     mrb_get_args(mrb, "|i", &dest);
 
@@ -119,7 +119,7 @@ static mrb_value f_duplicate_pipe(mrb_state *mrb, mrb_value self)
 
 static mrb_value f_pipe_implements(mrb_state *mrb, mrb_value self)
 {
-    int interface;
+    mrb_int interface;
 
     mrb_get_args(mrb, "i", &interface);
 
@@ -138,7 +138,7 @@ struct constant { const char *name; int value; };
 static mrb_value f_method_missing(mrb_state *mrb, mrb_value self)
 {
     mrb_sym method;
-    int value;
+    mrb_int value;
 
     int parsed = mrb_get_args(mrb, "n|i", &method, &value);
 
